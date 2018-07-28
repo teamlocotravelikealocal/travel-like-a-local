@@ -28,9 +28,6 @@ class App extends React.Component {
       weather: '',
       weatherIcon: ''
     };
-    ajaxHandler.getDestinations(function (response) {
-      this.state.destinations = response;
-    }.bind(this));
   }
 
   componentDidMount() {

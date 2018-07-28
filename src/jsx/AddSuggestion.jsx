@@ -7,23 +7,15 @@ class AddSuggestion extends React.Component {
     this.destinationOptionChange = this.destinationOptionChange.bind(this);
     this.handleSugNameInputChange = this.handleSugNameInputChange.bind(this);
     this.handleSugLinkInputChange = this.handleSugLinkInputChange.bind(this);
-    console.log('destinations...', this.props);
     this.state = {
-      // destinationOption: this.props.destinations[0].destinationName,
       destinationOption: '',
       suggestionName: '',
       suggestionLink: ''
     };
   }
 
-  // componentDidMount() {
-  //   console.log('destinations...', this.props.destinations);
-  //   this.setState({ destinationOption: this.props.destinations[0].destinationName });
-  // }
-
 
   componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
     if ( JSON.stringify(this.props.destinations) !== JSON.stringify(prevProps.destinations) ) {
       this.setState({ destinationOption: this.props.destinations[0].destinationName });
     }
@@ -47,15 +39,8 @@ class AddSuggestion extends React.Component {
     this.setState({ destinationOption: e.target.value });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.friendsToAdd[0]) {
-    //   this.setState({destinationOption: nextProps.friendsToAdd[0].username});
-    // }
-  }
 
   render() {
-    //console.log('line 27', this.props);
-    console.log('in AddSuggestion render()...this.props...', this.props);
     return (
       <div>
         <form onSubmit={this.handleSuggestionSubmit}>
