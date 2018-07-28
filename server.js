@@ -36,6 +36,7 @@ staticRouter.get('/', function(req, res){
   if (req.session.user){
     username = req.session.user;
   }
+  console.log('username is...', username);
   //pass the username from the session to index.html
   //to have access to usename on the client side
   res.render('index', {data:username});
