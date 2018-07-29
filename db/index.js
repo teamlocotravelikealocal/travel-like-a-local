@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const bcrypt = require('bcrypt-nodejs');
-const mysqlConfig = require('./config.js');
+const mysqlConfig = require('./config.js').mysqlConfig;
 const connection = mysql.createConnection(mysqlConfig);
 
 console.log('mysqlConfig is...', mysqlConfig);

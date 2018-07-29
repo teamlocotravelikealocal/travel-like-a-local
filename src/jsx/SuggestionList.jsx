@@ -18,10 +18,10 @@ class SuggestionList extends React.Component {
 
         <ol>
           {
-            this.props.suggestionList.map((suggestion) =>
+            this.props.suggestionList.map((suggestion, index) =>
               <SuggestionListEntry
                 suggestion={suggestion}
-                key={suggestion.suggestionName}
+                key={index}
                 />
             )
           }
