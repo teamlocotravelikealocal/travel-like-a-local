@@ -71,6 +71,9 @@ apiRouter.get('/friendlist/:username', utilities.getFriendListForUser);
 apiRouter.get('/googlemaps/:location', utilities.getPlacesFromGoogleMapsProxy);
 //path to show suggestions from your friends for the destination you searched for
 apiRouter.get('/suggestions/:location/:username', utilities.getSuggestionsFromFriends);
+
+//path to get the image links from a suggestion link
+apiRouter.get('/suggestion/:link', utilities.getImageLinks);
 //path to show all destinations
 apiRouter.get('/destinations', utilities.getDestinations);
 apiRouter.post('/users/:username', utilities.getLoggedUserId);
