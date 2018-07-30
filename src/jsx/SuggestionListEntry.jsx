@@ -10,17 +10,17 @@ class SuggestionListEntry extends React.Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log('Inside SuggestionListEntry componentDidUpdate before api call');
-  //   if ( this.state.imageLinks === '' ) {
-  //     ajaxHandler.getImageForSuggestionLinks(this.props.suggestion.suggestionLink, function (response) {
-  //       console.log('in SugestionListEntry componentDidUpdate...response.data is...', response.data);
-  //       this.setState({
-  //         imageLinks: response.data
-  //       });
-  //     }.bind(this));
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    console.log('Inside SuggestionListEntry componentDidUpdate before api call');
+    if ( this.props.suggestion.suggestionLink !== prevProps.suggestion.suggestionLink ) {
+      ajaxHandler.getImageForSuggestionLinks(this.props.suggestion.suggestionLink, function (response) {
+        console.log('in SugestionListEntry componentDidUpdate...response.data is...', response.data);
+        this.setState({
+          imageLinks: response.data
+        });
+      }.bind(this));
+    }
+  }
 
   componentDidMount() {
     console.log('Inside SuggestionListEntry componentDidMount before api call');
@@ -35,7 +35,7 @@ class SuggestionListEntry extends React.Component {
   }
 
   render() {
-    let imgSrc = this.state.imageLinks || 'https://photos.smugmug.com/Other/Madurai-Meenakshi-Amman-Temple/i-wdGtMtV/0/a96afd1a/X4/IMG_8216_HDR-X4.jpg';
+    let imgSrc = this.state.imageLinks[0] || 'https://photos.smugmug.com/Other/Madurai-Meenakshi-Amman-Temple/i-wdGtMtV/0/a96afd1a/X4/IMG_8216_HDR-X4.jpg';
     let imgSize = {
       width:'100px',
       height: '100px'
