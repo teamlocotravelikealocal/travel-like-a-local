@@ -69,6 +69,10 @@ apiRouter.get('/remaining-friends/:username', utilities.getSuggestedFriendsForUs
 apiRouter.get('/friendlist/:username', utilities.getFriendListForUser);
 //path to show results from google maps API
 apiRouter.get('/googlemaps/:location', utilities.getPlacesFromGoogleMapsProxy);
+//path to show results from google maps API and Eventbrite api
+apiRouter.get('/googlemaps/events/:location', utilities.getEventsFromGoogleMapsAndEventbrite);
+//path to show results from Eventbrite api
+apiRouter.get('/events', utilities.getEventsFromEventbrite);
 //path to show suggestions from your friends for the destination you searched for
 apiRouter.get('/suggestions/:location/:username', utilities.getSuggestionsFromFriends);
 

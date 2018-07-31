@@ -11,10 +11,10 @@ class SuggestionListEntry extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('Inside SuggestionListEntry componentDidUpdate before api call');
+    // console.log('Inside SuggestionListEntry componentDidUpdate before api call');
     if ( this.props.suggestion.suggestionLink !== prevProps.suggestion.suggestionLink ) {
       ajaxHandler.getImageForSuggestionLinks(this.props.suggestion.suggestionLink, function (response) {
-        console.log('in SugestionListEntry componentDidUpdate...response.data is...', response.data);
+        // console.log('in SugestionListEntry componentDidUpdate...response.data is...', response.data);
         this.setState({
           imageLinks: response.data
         });
@@ -23,10 +23,10 @@ class SuggestionListEntry extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Inside SuggestionListEntry componentDidMount before api call');
+    // console.log('Inside SuggestionListEntry componentDidMount before api call');
     if ( this.state.imageLinks === '' ) {
       ajaxHandler.getImageForSuggestionLinks(this.props.suggestion.suggestionLink, function (response) {
-        console.log('in SugestionListEntry componentDidMount...response.data is...', response.data);
+        // console.log('in SugestionListEntry componentDidMount...response.data is...', response.data);
         this.setState({
           imageLinks: response.data
         });
