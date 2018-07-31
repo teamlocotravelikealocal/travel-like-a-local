@@ -97,7 +97,20 @@ class App extends React.Component {
     if (this.state.userName === 'not logged in') {
       var source = 'Google';
       var suggestionList = [];
-      ajaxHandler.getPlacesFromGoogleMaps(location, function (suggestions) {
+      ajaxHandler.getPlacesFromGoogleMaps(location, function (response) {
+        let suggestions = response.suggestions;
+        let lattitude = response.lattitude;
+        let longitude = response.longitude;
+        console.log(`lattitude is ${lattitude} and longitude is ${longitude}`);
+
+        let latLong = {
+          lattitude: lattitude,
+          longitude: longitude
+        };
+        ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
+          console.log('events from eventbrite...');
+        }.bind(this));
+
         for (var i = 0; i < suggestions.length; i++) {
           if (suggestions[i].photos !== undefined) {
             var link = suggestions[i].photos[0].html_attributions[0].match(/href="(.*?")/g);
@@ -110,6 +123,13 @@ class App extends React.Component {
         this.setState({ suggestionList: suggestionList });
         //console.log(suggestionList);
       }.bind(this));
+
+      //Call to get Local Events
+      // console.log('after google maps places before eventbrite');
+      // ajaxHandler.getEventsFromGoogleMapsAndEventbrite(location, function (events) {
+      //   console.log('events from eventbrite...');
+      // }.bind(this));
+
     }
 
     // case when user is logged in
@@ -169,6 +189,7 @@ class App extends React.Component {
         <div>
           <SearchInput handleSearchDest={this.handleSearchDest} />
           {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
+
         </div>
         {this.state.userName !== 'not logged in' &&
           <div>
