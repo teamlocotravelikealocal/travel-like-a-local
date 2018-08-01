@@ -36,6 +36,7 @@ staticRouter.get('/', function(req, res){
   if (req.session.user){
     username = req.session.user;
   }
+  console.log('username is...', username);
   //pass the username from the session to index.html
   //to have access to usename on the client side
   res.render('index', {data:username});
@@ -68,8 +69,15 @@ apiRouter.get('/remaining-friends/:username', utilities.getSuggestedFriendsForUs
 apiRouter.get('/friendlist/:username', utilities.getFriendListForUser);
 //path to show results from google maps API
 apiRouter.get('/googlemaps/:location', utilities.getPlacesFromGoogleMapsProxy);
+//path to show results from google maps API and Eventbrite api
+//apiRouter.get('/googlemaps/events/:location', utilities.getEventsFromGoogleMapsAndEventbrite);
+//path to show results from Eventbrite api
+apiRouter.get('/events', utilities.getEventsFromEventbrite);
 //path to show suggestions from your friends for the destination you searched for
 apiRouter.get('/suggestions/:location/:username', utilities.getSuggestionsFromFriends);
+
+//path to get the image links from a suggestion link
+apiRouter.get('/suggestion', utilities.getImageLinks);
 //path to show all destinations
 apiRouter.get('/destinations', utilities.getDestinations);
 apiRouter.post('/users/:username', utilities.getLoggedUserId);
@@ -84,5 +92,3 @@ app.use('/api', apiRouter);
 app.listen(3000, function(){
   console.log("listening on 3000");
 });
-
-

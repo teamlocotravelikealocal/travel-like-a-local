@@ -7,7 +7,18 @@ class AddSuggestion extends React.Component {
     this.destinationOptionChange = this.destinationOptionChange.bind(this);
     this.handleSugNameInputChange = this.handleSugNameInputChange.bind(this);
     this.handleSugLinkInputChange = this.handleSugLinkInputChange.bind(this);
-    this.state = { destinationOption: '', suggestionName: '', suggestionLink: '' };
+    this.state = {
+      destinationOption: '',
+      suggestionName: '',
+      suggestionLink: ''
+    };
+  }
+
+
+  componentDidUpdate(prevProps) {
+    if ( JSON.stringify(this.props.destinations) !== JSON.stringify(prevProps.destinations) ) {
+      this.setState({ destinationOption: this.props.destinations[0].destinationName });
+    }
   }
 
   handleSugNameInputChange(e) {
@@ -28,14 +39,8 @@ class AddSuggestion extends React.Component {
     this.setState({ destinationOption: e.target.value });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.friendsToAdd[0]) {
-    //   this.setState({destinationOption: nextProps.friendsToAdd[0].username});
-    // }
-  }
 
   render() {
-    //console.log('line 27', this.props);
     return (
       <div>
         <form onSubmit={this.handleSuggestionSubmit}>

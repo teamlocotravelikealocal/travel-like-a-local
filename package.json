@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot"
+    "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot",
+    "react-dev": "./node_modules/.bin/webpack -d --watch --config ./webpack.config.js"
   },
   "dependencies": {
     "@google/maps": "^0.4.3",
@@ -23,11 +24,13 @@
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
+    "eventbrite": "^1.0.2",
     "express": "^4.15.4",
     "express-session": "^1.15.6",
     "mysql": "^2.14.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
+    "request": "^2.87.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1"
   },
