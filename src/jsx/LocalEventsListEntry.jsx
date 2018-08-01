@@ -40,8 +40,18 @@ class LocalEventsListEntry extends React.Component {
     //   width:'100px',
     //   height: '100px'
     // };
-
-    return (<li> Event entry </li>);
+    let event = JSON.parse(this.props.event);
+    return (
+      <li> 
+        <a href={event.url}> 
+          <h2> 
+            {event.name}  
+          </h2>
+        </a>
+        <p> {event.description} </p>
+        <h4> {event.localtime} </h4>
+        <h4> {event.free ? 'Free' : '$'} </h4> 
+      </li>);
     // return (
     //   <li className="suggestion-list-entry">
     //     <div className="suggestion-list-entry-title">
@@ -54,4 +64,4 @@ class LocalEventsListEntry extends React.Component {
   }
 }
 
-export default SuggestionListEntry;
+export default LocalEventsListEntry;

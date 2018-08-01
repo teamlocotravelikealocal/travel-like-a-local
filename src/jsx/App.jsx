@@ -8,6 +8,7 @@ import SuggestionList from "./SuggestionList.jsx";
 import FriendList from "./FriendList.jsx";
 import SearchInput from "./SearchInput.jsx";
 import AddSuggestion from "./AddSuggestion.jsx";
+import LocalEventsList from './LocalEventsList.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class App extends React.Component {
       suggestionToAdd: {},
       destinations: [],
       weather: '',
-      weatherIcon: ''
+      weatherIcon: '',
+      events:[]
     };
   }
 
@@ -107,8 +109,12 @@ class App extends React.Component {
           lattitude: lattitude,
           longitude: longitude
         };
+        
         ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
           console.log('events from eventbrite...');
+          this.setState({
+            events:events
+          })
         }.bind(this));
 
         for (var i = 0; i < suggestions.length; i++) {
@@ -189,7 +195,7 @@ class App extends React.Component {
         <div>
           <SearchInput handleSearchDest={this.handleSearchDest} />
           {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
-
+          {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
         </div>
         {this.state.userName !== 'not logged in' &&
           <div>
