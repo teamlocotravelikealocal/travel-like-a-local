@@ -1,4 +1,6 @@
 import React from 'react';
+import 'semantic-ui-css/semantic.min.css';
+import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import ReactDOM from 'react-dom';
 import ajaxHandler from '../../lib/ajaxHandler.js';
 import DestinationInput from './DestinationInput.jsx';
@@ -193,6 +195,7 @@ class App extends React.Component {
       <div>
         <Nav userName={this.state.userName} />
         <div>
+        <Button primary>Primary</Button>
           <SearchInput handleSearchDest={this.handleSearchDest} />
           {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
           {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
