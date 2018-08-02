@@ -2,6 +2,7 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import ReactDOM from 'react-dom';
+import Title from './Title.jsx'
 import ajaxHandler from '../../lib/ajaxHandler.js';
 import DestinationInput from './DestinationInput.jsx';
 import AddFriend from './AddFriend.jsx';
@@ -111,7 +112,7 @@ class App extends React.Component {
           lattitude: lattitude,
           longitude: longitude
         };
-        
+
         ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
           console.log('events from eventbrite...');
           this.setState({
@@ -193,10 +194,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Nav userName={this.state.userName} />
+        <Title />
+        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} />
         <div>
-        <Button primary>Primary</Button>
-          <SearchInput handleSearchDest={this.handleSearchDest} />
+{/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
           {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
           {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
         </div>
