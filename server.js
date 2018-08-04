@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var utilities = require('./lib/util.js');
 var path = require('path');
+const PORT = process.env.PORT || 3000;
 
 
 var app = express();
