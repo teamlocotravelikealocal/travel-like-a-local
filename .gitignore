@@ -26,6 +26,8 @@ coverage
 build/
 dist/
 
+.env
+
 
 # Keep db config private
 db/config.js

@@ -4,7 +4,10 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var utilities = require('./lib/util.js');
 var path = require('path');
-const PORT = process.env.PORT || 3000;
+require('dotenv').config();
+
+const PORT = process.env.PORT;
+
 
 
 var app = express();
@@ -90,6 +93,6 @@ apiRouter.post('/addsuggestion', utilities.addNewSuggestion);
 apiRouter.delete('/deletefriendship/:userID/:friendID', utilities.deleteFriendship);
 app.use('/api', apiRouter);
 
-app.listen(3000, function(){
-  console.log("listening on 3000");
+app.listen(PORT, function(){
+  console.log(`listening on ${PORT}`);
 });
