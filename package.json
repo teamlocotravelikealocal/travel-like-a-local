@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
     "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot --open",
     "react-dev": "webpack --mode development --watch --config ./webpack.dev.config.js"
   },
