@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Button, Menu, Input, Label } from 'semantic-ui-react'
+import LoginForm from './LoginForm.jsx';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class Nav extends React.Component {
     }
     this.handleDestInputSearch = this.handleDestInputSearch.bind(this)
     this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this)
+
   }
+
 
   handleDestInputSearch(e, data) {
     this.setState({
@@ -41,9 +44,8 @@ class Nav extends React.Component {
         </Menu.Item>
 
         <Menu.Item position='right'>
-          <Button primary onClick = { () => alert('Logging in...') }>Log-in</Button>
+          <Button primary onClick = {()=> this.props.loginPress(true)}>Log-in</Button>
         </Menu.Item>
-
         <Menu.Item>
           <Button >Sign up</Button>
         </Menu.Item>
