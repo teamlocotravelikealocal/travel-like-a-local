@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot --open",
-    "react-dev": "webpack --mode development -d --watch --config ./webpack.dev.config.js"
+    "react-dev": "webpack --mode development --watch --config ./webpack.dev.config.js"
   },
   "dependencies": {
-    "@google/maps": "^0.4.3",
+    "@google/maps": "^0.5.5",
     "ajv": "^6.5.2",
     "axios": "^0.16.2",
     "babel-core": "^6.26.3",
