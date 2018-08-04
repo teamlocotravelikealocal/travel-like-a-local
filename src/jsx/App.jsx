@@ -12,6 +12,7 @@ import FriendList from "./FriendList.jsx";
 import SearchInput from "./SearchInput.jsx";
 import AddSuggestion from "./AddSuggestion.jsx";
 import LocalEventsList from './LocalEventsList.jsx';
+import LoginForm from './LoginForm.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class App extends React.Component {
     this.handleSearchDest = this.handleSearchDest.bind(this);
     this.handleAddSuggestion = this.handleAddSuggestion.bind(this);
     this.handleFriendDelete = this.handleFriendDelete.bind(this);
+    this.loginPress = this.loginPress.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -31,7 +33,8 @@ class App extends React.Component {
       destinations: [],
       weather: '',
       weatherIcon: '',
-      events:[]
+      events:[],
+      showComponent: false
     };
   }
 
@@ -75,6 +78,14 @@ class App extends React.Component {
       });
     });
   }
+
+  loginPress(bool){
+   if(bool){
+    this.setState({
+      showComponent:true
+    })
+   }
+    }
 
   handleAddFriend(friend, friendList) {
     var that = this;
@@ -195,9 +206,10 @@ class App extends React.Component {
     return (
       <div>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} />
+        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} />
         <div>
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
+           {this.state.showComponent ? <LoginForm/> : null}
           {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
           {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
         </div>
