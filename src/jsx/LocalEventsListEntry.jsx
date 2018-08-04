@@ -42,15 +42,15 @@ class LocalEventsListEntry extends React.Component {
     // };
     let event = JSON.parse(this.props.event);
     return (
-      <li> 
-        <a href={event.url}> 
-          <h2> 
-            {event.name}  
+      <li>
+        <a href={event.url} target="_blank">
+          <h2>
+            {event.name}
           </h2>
         </a>
         <p> {event.description} </p>
         <h4> {event.localtime} </h4>
-        <h4> {event.free ? 'Free' : '$'} </h4> 
+        <h4> {event.free ? 'Free' : '$'} </h4>
       </li>);
     // return (
     //   <li className="suggestion-list-entry">
