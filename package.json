@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot --open",
-    "react-dev": "webpack --mode development -d --watch --config ./webpack.config.js"
+    "react-dev": "webpack --mode development -d --watch --config ./webpack.dev.config.js"
   },
   "dependencies": {
     "@google/maps": "^0.4.3",
@@ -25,6 +25,8 @@
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "css-loader": "^1.0.0",
+    "dotenv": "^6.0.0",
+    "dotenv-webpack": "^1.5.7",
     "ejs": "^2.5.7",
     "eventbrite": "^1.0.2",
     "express": "^4.16.3",
