@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ajaxHandler from '../../lib/ajaxHandler.js';
+import { Image, List, Icon, Label, Grid } from 'semantic-ui-react';
 
 class SuggestionListEntry extends React.Component {
   constructor(props) {
@@ -40,15 +41,34 @@ class SuggestionListEntry extends React.Component {
       width:'100px',
       height: '100px'
     };
+
     return (
-      <li className="suggestion-list-entry">
-        <div className="suggestion-list-entry-title">
-          <a href={this.props.suggestion.suggestionLink} target={this.props.suggestion.target}>{this.props.suggestion.suggestionName}</a>
-          <h4> Recommended by  {this.props.suggestion.suggestionSource} </h4>
-          <a href = {imgSrc} target='#'> <img src = {imgSrc} style={imgSize} /> </a>
-        </div>
-      </li>
+      <List.Item>
+        <Grid verticalAlign='middle' columns={3} padded='vertically'>
+          <Grid.Row>
+            <Grid.Column width={2}>
+              <Label color='orange'> <a href={this.props.suggestion.suggestionLink} target={this.props.suggestion.target}>{this.props.suggestion.suggestionName}</a>
+              </Label>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Image src={imgSrc} fluid rounded />
+            </Grid.Column>
+            <Grid.Column width={1}>
+              <Icon name={ this.props.suggestion.suggestionSource === 'Google' ? 'google' : 'user'} size='small' />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </List.Item>
     );
+    // return (
+    //   <li className="suggestion-list-entry">
+    //     <div className="suggestion-list-entry-title">
+    //       <a href={this.props.suggestion.suggestionLink} target={this.props.suggestion.target}>{this.props.suggestion.suggestionName}</a>
+    //       <h4> Recommended by  {this.props.suggestion.suggestionSource} </h4>
+    //       <a href = {imgSrc} target='#'> <img src = {imgSrc} style={imgSize} /> </a>
+    //     </div>
+    //   </li>
+    // );
   }
 }
 
