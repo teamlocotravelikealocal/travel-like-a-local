@@ -46,7 +46,9 @@ staticRouter.get('/', function(req, res){
   res.render('index', {data:username});
 });
 staticRouter.get('/index.html', utilities.checkUser);
+
 staticRouter.get('/login', function(req, res){
+  console.log('inside get/login')
   res.redirect('login.html');
 });
 staticRouter.post('/login', utilities.handleLogin);
@@ -55,6 +57,7 @@ staticRouter.get('/signup', function(req, res){
   res.redirect('signup.html');
 });
 staticRouter.post('/signup', utilities.handleSignup);
+
 staticRouter.get('/logout', function(req, res){
   req.session.destroy(function() {
     var username = 'not logged in';

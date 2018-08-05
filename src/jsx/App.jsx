@@ -217,7 +217,7 @@ class App extends React.Component {
 
 
 
-          {this.state.showComponent ? <LoginForm/> : null}
+          {this.state.showComponent && <LoginForm userName={this.state.userName}/>}
           {this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
