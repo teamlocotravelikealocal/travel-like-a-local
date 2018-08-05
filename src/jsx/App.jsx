@@ -13,6 +13,7 @@ import SearchInput from "./SearchInput.jsx";
 import AddSuggestion from "./AddSuggestion.jsx";
 import LocalEventsList from './LocalEventsList.jsx';
 import LoginForm from './LoginForm.jsx';
+import Destination from './Destination.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,7 +35,8 @@ class App extends React.Component {
       weather: '',
       weatherIcon: '',
       events:[],
-      showComponent: false
+      showComponent: false,
+      location: ''
     };
   }
 
@@ -105,9 +107,11 @@ class App extends React.Component {
 
   handleSearchDest(location) {
     //get weather data
+
+
     ajaxHandler.getWeatherData(location, function (response) {
       var weather = response.data.query.results.channel.item.condition.temp + "°C and " + response.data.query.results.channel.item.condition.text;
-      this.setState({ weather: weather });
+      this.setState({ weather: weather, location: location });
     }.bind(this));
 
     if (this.state.userName === 'not logged in') {
@@ -209,9 +213,22 @@ class App extends React.Component {
         <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} />
         <div>
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
-           {this.state.showComponent ? <LoginForm/> : null}
-          {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
-          {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
+
+
+
+
+          {this.state.showComponent ? <LoginForm/> : null}
+          {this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
+          <Grid columns={2}>
+            <Grid.Row>
+            <Grid.Column>
+            {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
+            </Grid.Column>
+            <Grid.Column>
+            {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
+            </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
         {this.state.userName !== 'not logged in' &&
           <div>
