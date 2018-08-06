@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Button, Menu, Input, Label } from 'semantic-ui-react'
 import LoginForm from './LoginForm.jsx';
+import $ from 'jquery';
 
 class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputSearchDest: '',
-      userName: this.props.userName
+      inputSearchDest: ''
     }
     this.handleDestInputSearch = this.handleDestInputSearch.bind(this);
     this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this);
@@ -30,10 +30,19 @@ class Nav extends React.Component {
   }
 
   loginLogoutClick() {
-    if ( this.state.userName === 'not logged in' ) {
+    var thisComponent = this;
+    if ( this.props.userName === 'not logged in' ) {
       this.props.loginPress(true);
     } else {
-
+      $.ajax({
+          type: 'GET',
+          url: '/logout'
+        })
+        .done(function(data){
+          console.log('logged out data....', data);
+          thisComponent.props.setUser('not logged in');
+          //console.log('data has been posted from search', data);
+        })
     }
   }
 

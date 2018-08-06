@@ -61,7 +61,8 @@ staticRouter.post('/signup', utilities.handleSignup);
 staticRouter.get('/logout', function(req, res){
   req.session.destroy(function() {
     var username = 'not logged in';
-    res.render('index', {data:username});
+    res.send({isLogged: false, user: username});
+    // res.render('index', {data:username});
   });
 });
 app.use(staticRouter);

@@ -27,7 +27,8 @@ class LoginForm extends Component{
         data: {credentials:data}
       })
       .done(function(data){
-        thisComponent.props.setLoggedInUser(thisComponent.state.userName);
+        console.log('logged in data...',data);
+        thisComponent.props.setUser(thisComponent.state.userName);
         //console.log('data has been posted from search', data);
       })
   }

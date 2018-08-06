@@ -24,7 +24,7 @@ class App extends React.Component {
     this.handleAddSuggestion = this.handleAddSuggestion.bind(this);
     this.handleFriendDelete = this.handleFriendDelete.bind(this);
     this.loginPress = this.loginPress.bind(this);
-    this.setLoggedInUser = this.setLoggedInUser.bind(this);
+    this.setUser = this.setUser.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -208,19 +208,19 @@ class App extends React.Component {
   }
 
 
-  setLoggedInUser(username) {
-    this.setState({userName: username, showLoginComponent: false});
+  setUser(username) {
+    this.setState({userName: username, showLoginComponent: !this.state.showLoginComponent});
   }
 
   render() {
     return (
       <div>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} />
+        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} />
         <div>
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
-          {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setLoggedInUser={this.setLoggedInUser}/>}
+          {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
           {this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
