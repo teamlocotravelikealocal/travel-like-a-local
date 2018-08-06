@@ -40,7 +40,7 @@ staticRouter.get('/', function(req, res){
   if (req.session.user){
     username = req.session.user;
   }
-  console.log('username is...', username);
+  console.log(' staticRouter.get / username is...', username);
   //pass the username from the session to index.html
   //to have access to usename on the client side
   res.render('index', {data:username});
@@ -61,7 +61,8 @@ staticRouter.post('/signup', utilities.handleSignup);
 staticRouter.get('/logout', function(req, res){
   req.session.destroy(function() {
     var username = 'not logged in';
-    res.render('index', {data:username});
+    res.send({isLogged: false, user: username});
+    // res.render('index', {data:username});
   });
 });
 app.use(staticRouter);

@@ -2,13 +2,13 @@ import React , {Component} from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import $ from 'jquery';
 
-   
+
 
 class LoginForm extends Component{
 
   constructor(props){
     super(props);
-    this.state = {  email: '', password: ''}
+    this.state = {  userName: '', password: ''}
     this.handleChange = this.handleChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,33 +20,33 @@ class LoginForm extends Component{
 
   submitForm(data) {
     console.log('data inside submitForm',data);
-
-    $.ajax({ 
-        type: 'POST', 
-        url: '/login', 
+    let thisComponent = this;
+    $.ajax({
+        type: 'POST',
+        url: '/login',
         data: {credentials:data}
-      }).done(function(data){
-      console.log('data has been posted from search',data);
-    })
-   }
+      })
+      .done(function(data){
+        console.log('logged in data...',data);
+        thisComponent.props.setUser(thisComponent.state.userName);
+        //console.log('data has been posted from search', data);
+      })
+  }
 
   handleSubmit = () => {
 
     console.log('inside handleSubmit');
-    const { email,password } = this.state
+    const { userName, password } = this.state;
 
-    this.setState({ email: email, password: password })
-    
-
-
-    this.submitForm({ email: email, password: password })
+    this.setState({ userName: userName, password: password });
+    this.submitForm({ userName: userName, password: password });
   }
 
-  
+
 
   render(){
 
-    const { email, password } = this.state
+    const { userName, password } = this.state
 
 return(
 
@@ -70,13 +70,13 @@ return(
         </Header>
         <Form size='large' onSubmit={this.handleSubmit}>
           <Segment stacked>
-            <Form.Input id="email" fluid icon='user' iconPosition='left' placeholder='E-mail address' name='email' value={email} onChange={this.handleChange} />
+            <Form.Input id="userName" fluid icon='user' iconPosition='left' placeholder='Username' name='userName' value={userName} onChange={this.handleChange} />
             <Form.Input id="password"
               fluid
               icon='lock'
               iconPosition='left'
               placeholder='Password'
-              type='password'      
+              type='password'
               value={password}
               name='password'
               onChange={this.handleChange}

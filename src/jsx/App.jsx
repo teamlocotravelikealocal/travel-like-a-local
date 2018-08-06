@@ -24,6 +24,7 @@ class App extends React.Component {
     this.handleAddSuggestion = this.handleAddSuggestion.bind(this);
     this.handleFriendDelete = this.handleFriendDelete.bind(this);
     this.loginPress = this.loginPress.bind(this);
+    this.setUser = this.setUser.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -35,7 +36,7 @@ class App extends React.Component {
       weather: '',
       weatherIcon: '',
       events:[],
-      showComponent: false,
+      showLoginComponent: false,
       location: ''
     };
   }
@@ -84,10 +85,10 @@ class App extends React.Component {
   loginPress(bool){
    if(bool){
     this.setState({
-      showComponent:true
+      showLoginComponent:true
     })
    }
-    }
+  }
 
   handleAddFriend(friend, friendList) {
     var that = this;
@@ -206,18 +207,20 @@ class App extends React.Component {
     }.bind(this));
   }
 
+
+  setUser(username) {
+    this.setState({userName: username, showLoginComponent: !this.state.showLoginComponent});
+  }
+
   render() {
     return (
       <div>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} />
+        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} />
         <div>
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
-
-
-
-          {this.state.showComponent && <LoginForm userName={this.state.userName}/>}
+          {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
           {this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Button, Menu, Input, Label } from 'semantic-ui-react'
 import LoginForm from './LoginForm.jsx';
+import $ from 'jquery';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -9,8 +10,9 @@ class Nav extends React.Component {
     this.state = {
       inputSearchDest: ''
     }
-    this.handleDestInputSearch = this.handleDestInputSearch.bind(this)
-    this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this)
+    this.handleDestInputSearch = this.handleDestInputSearch.bind(this);
+    this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this);
+    this.loginLogoutClick = this.loginLogoutClick.bind(this);
 
   }
 
@@ -27,6 +29,22 @@ class Nav extends React.Component {
     this.props.handleSearchDest(this.state.inputSearchDest);
   }
 
+  loginLogoutClick() {
+    var thisComponent = this;
+    if ( this.props.userName === 'not logged in' ) {
+      this.props.loginPress(true);
+    } else {
+      $.ajax({
+          type: 'GET',
+          url: '/logout'
+        })
+        .done(function(data){
+          console.log('logged out data....', data);
+          thisComponent.props.setUser('not logged in');
+          //console.log('data has been posted from search', data);
+        })
+    }
+  }
 
   render() {
     return (
@@ -44,10 +62,10 @@ class Nav extends React.Component {
         </Menu.Item>
 
         <Menu.Item position='right'>
-          <Button primary onClick = {()=> this.props.loginPress(true)}>Log-in</Button>
+          <Button primary onClick = {() => this.loginLogoutClick()}>{this.props.userName === 'not logged in' ? 'Login' : 'Logout'}</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button >Sign up</Button>
+        {this.props.userName === 'not logged in' && <Button >Sign up</Button>}
         </Menu.Item>
 
       </Menu>
