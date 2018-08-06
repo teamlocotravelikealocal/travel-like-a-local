@@ -7,10 +7,12 @@ class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputSearchDest: ''
+      inputSearchDest: '',
+      userName: this.props.userName
     }
-    this.handleDestInputSearch = this.handleDestInputSearch.bind(this)
-    this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this)
+    this.handleDestInputSearch = this.handleDestInputSearch.bind(this);
+    this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this);
+    this.loginLogoutClick = this.loginLogoutClick.bind(this);
 
   }
 
@@ -27,6 +29,13 @@ class Nav extends React.Component {
     this.props.handleSearchDest(this.state.inputSearchDest);
   }
 
+  loginLogoutClick() {
+    if ( this.state.userName === 'not logged in' ) {
+      this.props.loginPress(true);
+    } else {
+
+    }
+  }
 
   render() {
     return (
@@ -44,10 +53,10 @@ class Nav extends React.Component {
         </Menu.Item>
 
         <Menu.Item position='right'>
-          <Button primary onClick = {()=> this.props.loginPress(true)}>Log-in</Button>
+          <Button primary onClick = {() => this.loginLogoutClick()}>{this.props.userName === 'not logged in' ? 'Login' : 'Logout'}</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button >Sign up</Button>
+        {this.props.userName === 'not logged in' && <Button >Sign up</Button>}
         </Menu.Item>
 
       </Menu>
