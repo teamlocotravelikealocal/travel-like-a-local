@@ -24,7 +24,6 @@ class AddFriend extends React.Component {
   }
 
   render() {
-    debugger;
     return (
       <div>
         <form>
