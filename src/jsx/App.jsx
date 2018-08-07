@@ -164,7 +164,23 @@ class App extends React.Component {
       var source = 'Google';
       var suggestionList = [];
       var that = this;
-      ajaxHandler.getPlacesFromGoogleMaps(location, function (suggestions) {
+      ajaxHandler.getPlacesFromGoogleMaps(location, function (response) {
+        let suggestions = response.suggestions;
+        let lattitude = response.lattitude;
+        let longitude = response.longitude;
+        
+        let latLong = {
+          lattitude: lattitude,
+          longitude: longitude
+        };
+      console.log(`lattitude is ${lattitude} and longitude is ${longitude}`);
+        
+        ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
+          that.setState({
+            events:events.data
+          })
+        }.bind(that));
+
         for (var i = 0; i < suggestions.length; i++) {
           if (suggestions[i].photos !== undefined) {
             var link = suggestions[i].photos[0].html_attributions[0].match(/href="(.*?")/g);
@@ -185,6 +201,10 @@ class App extends React.Component {
           that.setState({ suggestionList: suggestionList });
         });
       });
+
+
+
+
     }
   }
 
