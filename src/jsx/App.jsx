@@ -49,6 +49,7 @@ class App extends React.Component {
       });
     }.bind(this));
     ajaxHandler.getRemainingFriends(this.state.userName, function (response) {
+      debugger;
       this.setState({
         friendsToAdd: response.data
       });
@@ -99,6 +100,7 @@ class App extends React.Component {
         });
       });
       ajaxHandler.getRemainingFriends(that.state.userName, function (response) {
+        debugger;
         that.setState({
           friendsToAdd: response.data
         });
@@ -209,7 +211,29 @@ class App extends React.Component {
 
 
   setUser(username) {
-    this.setState({userName: username, showLoginComponent: !this.state.showLoginComponent});
+    var thisComponent = this;
+    if ( username !== 'not logged in' ) {
+      ajaxHandler.getFriendList(username, function (response) {
+        console.log('retreiving friendList...', response.data);
+        let friendListResult = response.data;
+        ajaxHandler.getRemainingFriends(username, function (response) {
+          debugger;
+          thisComponent.setState({
+            userName: username,
+            friendsToAdd: response.data,
+            friendList: friendListResult,
+            showLoginComponent: !thisComponent.state.showLoginComponent
+          });
+        });
+      }.bind(thisComponent));
+    } else {
+        thisComponent.setState({
+          userName: username,
+          friendList: [],
+          friendsToAdd: [],
+          showLoginComponent: !thisComponent.state.showLoginComponent
+        });
+    }
   }
 
   render() {
