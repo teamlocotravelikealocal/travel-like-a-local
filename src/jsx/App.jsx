@@ -25,6 +25,7 @@ class App extends React.Component {
     this.handleFriendDelete = this.handleFriendDelete.bind(this);
     this.loginPress = this.loginPress.bind(this);
     this.setUser = this.setUser.bind(this);
+    this.setNavItem = this.setNavItem.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -37,7 +38,8 @@ class App extends React.Component {
       weatherIcon: '',
       events:[],
       showLoginComponent: false,
-      location: ''
+      location: '',
+      navItem : 'Search'
     };
   }
 
@@ -49,7 +51,6 @@ class App extends React.Component {
       });
     }.bind(this));
     ajaxHandler.getRemainingFriends(this.state.userName, function (response) {
-      debugger;
       this.setState({
         friendsToAdd: response.data
       });
@@ -100,7 +101,6 @@ class App extends React.Component {
         });
       });
       ajaxHandler.getRemainingFriends(that.state.userName, function (response) {
-        debugger;
         that.setState({
           friendsToAdd: response.data
         });
@@ -217,7 +217,6 @@ class App extends React.Component {
         console.log('retreiving friendList...', response.data);
         let friendListResult = response.data;
         ajaxHandler.getRemainingFriends(username, function (response) {
-          debugger;
           thisComponent.setState({
             userName: username,
             friendsToAdd: response.data,
@@ -236,23 +235,29 @@ class App extends React.Component {
     }
   }
 
+  setNavItem(item){
+    this.setState({
+      navItem:item
+    })
+  }
+
   render() {
     return (
       <div>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} />
+        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem}/>
         <div>
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
           {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
-          {this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
+          {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
             <Grid.Column>
-            {this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
+            {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
             </Grid.Column>
             <Grid.Column>
-            {this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
+            {this.state.navItem === 'Search' && this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
             </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -260,11 +265,11 @@ class App extends React.Component {
         {this.state.userName !== 'not logged in' &&
           <div>
             <div className="form-wrapper">
-              <DestinationInput handleInputDest={this.handleInputDest} />
-              <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />
-              <AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />
+              {this.state.navItem === 'Recommend' && <DestinationInput handleInputDest={this.handleInputDest} />}
+              {this.state.navItem === 'Recommend' && <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />}
+              {this.state.navItem === 'Friends' &&<AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />}
             </div>
-            <FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />
+            {this.state.navItem === 'Friends' &&<FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />}
           </div>
         }
       </div>

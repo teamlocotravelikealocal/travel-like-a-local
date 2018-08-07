@@ -9,18 +9,27 @@ class Nav extends React.Component {
     super(props);
     this.state = {
       inputSearchDest: ''
+      // activeItem : 'Search'
     }
     this.handleDestInputSearch = this.handleDestInputSearch.bind(this);
     this.handleSearchDestSubmit = this.handleSearchDestSubmit.bind(this);
     this.loginLogoutClick = this.loginLogoutClick.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
 
   }
+
+  handleItemClick(e, { name }) {
+
+    // this.setState({ activeItem: name })
+    this.props.setNavItem(name);
+  };
 
 
   handleDestInputSearch(e, data) {
     this.setState({
       inputSearchDest: data['value']
     })
+    this.props.setNavItem('Search');
   }
 
   handleSearchDestSubmit(e, data) {
@@ -48,19 +57,20 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <Menu>
+      <Menu attached='top' tabular>
 
 {/*        <Menu.Item>
 
         </Menu.Item>*/}
 
-        <Menu.Item>
+        <Menu.Item active={this.props.navItem === 'Search'}>
           <Label color='teal' horizontal pointing='right'>
             Where to?
           </Label>
           <Input className='icon' icon='search' action={{ onClick: this.handleSearchDestSubmit }}  onChange ={this.handleDestInputSearch}  placeholder='Search...' />
         </Menu.Item>
-
+        {this.props.userName !== 'not logged in' && <Menu.Item name='Recommend' active={this.props.navItem === 'Recommend'} onClick={this.handleItemClick}></Menu.Item>}
+        {this.props.userName !== 'not logged in' && <Menu.Item name='Friends' active={this.props.navItem === 'Friends'} onClick={this.handleItemClick}></Menu.Item>}
         <Menu.Item position='right'>
           <Button primary onClick = {() => this.loginLogoutClick()}>{this.props.userName === 'not logged in' ? 'Login' : 'Logout'}</Button>
         </Menu.Item>
