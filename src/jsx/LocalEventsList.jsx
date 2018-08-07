@@ -10,13 +10,12 @@ class LocalEventsList extends React.Component {
 
 
   render() {
-    console.log('this.props.eventsList',this.props.eventsList);
     return (
       <div className="suggestion-list media">
 
         <ol>
           {
-            this.props.eventsList.data.map((event, index) =>
+            this.props.eventsList.map((event, index) =>
               <LocalEventsListEntry
                 event={event}
                 key={index}
