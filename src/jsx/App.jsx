@@ -271,6 +271,7 @@ class App extends React.Component {
     } else {
         thisComponent.setState({
           userName: username,
+          userID: '',
           friendList: [],
           friendsToAdd: [],
           showLoginComponent: !thisComponent.state.showLoginComponent
@@ -293,14 +294,14 @@ class App extends React.Component {
 {/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
           {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
-          {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
+          {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
             <Grid.Column>
-            {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
+            {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
             </Grid.Column>
             <Grid.Column>
-            {this.state.navItem === 'Search' && this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
+            {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
             </Grid.Column>
             </Grid.Row>
           </Grid>
