@@ -168,13 +168,13 @@ class App extends React.Component {
         let suggestions = response.suggestions;
         let lattitude = response.lattitude;
         let longitude = response.longitude;
-        
+
         let latLong = {
           lattitude: lattitude,
           longitude: longitude
         };
       console.log(`lattitude is ${lattitude} and longitude is ${longitude}`);
-        
+
         ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
           that.setState({
             events:events.data
@@ -282,16 +282,48 @@ class App extends React.Component {
             </Grid.Row>
           </Grid>
         </div>
-        {this.state.userName !== 'not logged in' &&
-          <div>
-            <div className="form-wrapper">
-              {this.state.navItem === 'Recommend' && <DestinationInput handleInputDest={this.handleInputDest} />}
-              {this.state.navItem === 'Recommend' && <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />}
-              {this.state.navItem === 'Friends' &&<AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />}
-            </div>
-            {this.state.navItem === 'Friends' &&<FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />}
-          </div>
+        {this.state.userName !== 'not logged in' && this.state.navItem === 'Recommend' &&
+          <Segment>
+            <Grid columns={2} divided>
+              <Grid.Row stretched>
+
+                <Grid.Column>
+                <Segment>
+                  <DestinationInput handleInputDest={this.handleInputDest} />
+                </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                <Segment>
+                  <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />
+                </Segment>
+                </Grid.Column>
+
+              </Grid.Row>
+            </Grid>
+          </Segment>
         }
+
+        {this.state.userName !== 'not logged in' && this.state.navItem === 'Friends' &&
+          <Segment>
+            <Grid columns={2} divided>
+              <Grid.Row stretched>
+
+                <Grid.Column>
+                <Segment>
+                  <AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />
+                </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                <Segment>
+                  <FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />
+                </Segment>
+                </Grid.Column>
+
+              </Grid.Row>
+            </Grid>
+          </Segment>
+        }
+
       </div>
     );
   }
