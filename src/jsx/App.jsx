@@ -13,6 +13,7 @@ import SearchInput from "./SearchInput.jsx";
 import AddSuggestion from "./AddSuggestion.jsx";
 import LocalEventsList from './LocalEventsList.jsx';
 import LoginForm from './LoginForm.jsx';
+import SignupForm from './SignupForm.jsx';
 import Destination from './Destination.jsx';
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
     this.loginPress = this.loginPress.bind(this);
     this.setUser = this.setUser.bind(this);
     this.setNavItem = this.setNavItem.bind(this);
+    this.signupPress = this.signupPress.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -38,6 +40,7 @@ class App extends React.Component {
       weatherIcon: '',
       events:[],
       showLoginComponent: false,
+      showSignupComponent: false,
       location: '',
       navItem : 'Search'
     };
@@ -85,10 +88,15 @@ class App extends React.Component {
   }
 
   loginPress(bool){
-   if(bool){
-    this.setState({
-      showLoginComponent:true
-    })
+   if (bool) {
+    if ( this.state.showSignupComponent ) {
+      this.setState({showSignupComponent: false, showLoginComponent: true});
+    } else {
+      this.setState({showLoginComponent: true});
+    }
+    // this.setState({
+    //   showLoginComponent:true
+    // })
    }
   }
 
@@ -263,7 +271,8 @@ class App extends React.Component {
               userID: response.data[0].ID,
               friendsToAdd: remainingFriends,
               friendList: friendListResult,
-              showLoginComponent: !thisComponent.state.showLoginComponent
+              showLoginComponent: false,
+              showSignupComponent: false
             });
           });
         });
@@ -285,15 +294,29 @@ class App extends React.Component {
     })
   }
 
+  signupPress() {
+    if ( this.state.showLoginComponent ) {
+      this.setState({showSignupComponent: true, showLoginComponent: false});
+    } else {
+      this.setState({showSignupComponent: true});
+    }
+
+  }
+
   render() {
     return (
       <div>
+        <Segment>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem}/>
+        </Segment>
+        <Segment basic>
+          <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem} signupPress={this.signupPress} />
+        </Segment>
+        <div class='backgroundImage'>
         <div>
-{/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
           {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
+          {this.state.showSignupComponent && <SignupForm userName={this.state.userName} setUser={this.setUser}/>}
           {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
@@ -347,7 +370,7 @@ class App extends React.Component {
             </Grid>
           </Segment>
         }
-
+      </div>
       </div>
     );
   }
