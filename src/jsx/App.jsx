@@ -264,7 +264,6 @@ class App extends React.Component {
         ajaxHandler.getRemainingFriends(username, function (response) {
           let remainingFriends = response.data;
           ajaxHandler.handleGetLoggedUserID(username, function (response) {
-            debugger;
             console.log('getting userID...response..', response);
             thisComponent.setState({
               userName: username,
@@ -312,7 +311,6 @@ class App extends React.Component {
         <Segment basic>
           <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem} signupPress={this.signupPress} />
         </Segment>
-        <div class='backgroundImage'>
         <div>
 
           {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
@@ -370,7 +368,6 @@ class App extends React.Component {
             </Grid>
           </Segment>
         }
-      </div>
       </div>
     );
   }

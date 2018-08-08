@@ -11,8 +11,8 @@ body {
 #app {
   max-width: 100%;
   margin: 0px auto;
-/*  background: url('./../images/hero.jpg') no-repeat;
-*/  background-size: cover;
+ background: url('./../images/travelLikelocal.png') no-repeat;
+ background-size: cover;
   min-height: 110vh;
   padding-bottom: 25px;
 }
