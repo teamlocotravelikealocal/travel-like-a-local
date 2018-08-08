@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 
 
-class LoginForm extends Component{
+class SignupForm extends Component{
 
   constructor(props){
     super(props);
@@ -19,15 +19,15 @@ class LoginForm extends Component{
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   submitForm(data) {
-    console.log('data inside submitForm',data);
+    console.log('data inside SignupForm',data);
     let thisComponent = this;
     $.ajax({
         type: 'POST',
-        url: '/login',
+        url: '/signup',
         data: {credentials:data}
       })
       .done(function(data){
-        console.log('logged in data...',data);
+        console.log('signup data...',data);
         thisComponent.props.setUser(thisComponent.state.userName);
         //console.log('data has been posted from search', data);
       })
@@ -50,9 +50,8 @@ class LoginForm extends Component{
 
 return(
 
-
   <div className='login-form'>
-    <Segment compact raised floated="right">
+  <Segment compact raised floated="right">
     {/*
       Heads up! The styles below are necessary for the correct render of this example.
       You can do same with CSS, the main idea is that all the elements up to the `Grid`
@@ -68,7 +67,7 @@ return(
     <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='teal' textAlign='center'>
-          <Image src='./images/logo.png' /> Log-in to your account
+          <Image src='./images/logo.png' /> Signup for an account
         </Header>
         <Form size='large' onSubmit={this.handleSubmit}>
           <Segment>
@@ -91,7 +90,7 @@ return(
         </Form>
       </Grid.Column>
     </Grid>
-    </Segment>
+  </Segment>
   </div>
 
   )
@@ -101,4 +100,4 @@ return(
 
 
 
-export default LoginForm;
+export default SignupForm;

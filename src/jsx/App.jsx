@@ -13,6 +13,7 @@ import SearchInput from "./SearchInput.jsx";
 import AddSuggestion from "./AddSuggestion.jsx";
 import LocalEventsList from './LocalEventsList.jsx';
 import LoginForm from './LoginForm.jsx';
+import SignupForm from './SignupForm.jsx';
 import Destination from './Destination.jsx';
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
     this.loginPress = this.loginPress.bind(this);
     this.setUser = this.setUser.bind(this);
     this.setNavItem = this.setNavItem.bind(this);
+    this.signupPress = this.signupPress.bind(this);
     this.state = {
       userName: this.props.username,
       userID: '',
@@ -38,6 +40,7 @@ class App extends React.Component {
       weatherIcon: '',
       events:[],
       showLoginComponent: false,
+      showSignupComponent: false,
       location: '',
       navItem : 'Search'
     };
@@ -85,10 +88,15 @@ class App extends React.Component {
   }
 
   loginPress(bool){
-   if(bool){
-    this.setState({
-      showLoginComponent:true
-    })
+   if (bool) {
+    if ( this.state.showSignupComponent ) {
+      this.setState({showSignupComponent: false, showLoginComponent: true});
+    } else {
+      this.setState({showLoginComponent: true});
+    }
+    // this.setState({
+    //   showLoginComponent:true
+    // })
    }
   }
 
@@ -168,13 +176,13 @@ class App extends React.Component {
         let suggestions = response.suggestions;
         let lattitude = response.lattitude;
         let longitude = response.longitude;
-        
+
         let latLong = {
           lattitude: lattitude,
           longitude: longitude
         };
       console.log(`lattitude is ${lattitude} and longitude is ${longitude}`);
-        
+
         ajaxHandler.getEventsFromEventbrite(latLong, function (events) {
           that.setState({
             events:events.data
@@ -216,6 +224,7 @@ class App extends React.Component {
   }
 
   handleFriendDelete(userID, friendID) {
+    var thisComponent = this;
     var friendList = this.state.friendList;
     var length = friendList.length;
     for (var i = 0; i < length; i++) {
@@ -225,9 +234,25 @@ class App extends React.Component {
       }
     }
     ajaxHandler.deleteFriendship(userID, friendID, function () {
-      this.setState({ friendList: friendList });
-    }.bind(this));
+      ajaxHandler.getRemainingFriends(thisComponent.state.userName, function (response) {
+        thisComponent.setState({
+          friendList: friendList,
+          friendsToAdd: response.data
+        });
+      });
+    }.bind(thisComponent));
   }
+
+
+    // ajaxHandler.handleGetLoggedUserID(this.state.userName, function (response) {
+    //   //console.log(response.data);
+    //   if (response.data.length > 0) {
+    //     this.setState({
+    //       userID: response.data[0].ID
+    //     });
+    //   }
+    // }.bind(this));
+
 
 
   setUser(username) {
@@ -237,17 +262,25 @@ class App extends React.Component {
         console.log('retreiving friendList...', response.data);
         let friendListResult = response.data;
         ajaxHandler.getRemainingFriends(username, function (response) {
-          thisComponent.setState({
-            userName: username,
-            friendsToAdd: response.data,
-            friendList: friendListResult,
-            showLoginComponent: !thisComponent.state.showLoginComponent
+          let remainingFriends = response.data;
+          ajaxHandler.handleGetLoggedUserID(username, function (response) {
+            debugger;
+            console.log('getting userID...response..', response);
+            thisComponent.setState({
+              userName: username,
+              userID: response.data[0].ID,
+              friendsToAdd: remainingFriends,
+              friendList: friendListResult,
+              showLoginComponent: false,
+              showSignupComponent: false
+            });
           });
         });
       }.bind(thisComponent));
     } else {
         thisComponent.setState({
           userName: username,
+          userID: '',
           friendList: [],
           friendsToAdd: [],
           showLoginComponent: !thisComponent.state.showLoginComponent
@@ -261,37 +294,83 @@ class App extends React.Component {
     })
   }
 
+  signupPress() {
+    if ( this.state.showLoginComponent ) {
+      this.setState({showSignupComponent: true, showLoginComponent: false});
+    } else {
+      this.setState({showSignupComponent: true});
+    }
+
+  }
+
   render() {
     return (
       <div>
+        <Segment>
         <Title />
-        <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem}/>
+        </Segment>
+        <Segment basic>
+          <Nav userName={this.state.userName} handleSearchDest={this.handleSearchDest} loginPress={this.loginPress} setUser={this.setUser} navItem={this.state.navItem} setNavItem={this.setNavItem} signupPress={this.signupPress} />
+        </Segment>
+        <div class='backgroundImage'>
         <div>
-{/*          <SearchInput handleSearchDest={this.handleSearchDest} />*/}
 
           {this.state.showLoginComponent && <LoginForm userName={this.state.userName} setUser={this.setUser}/>}
-          {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
+          {this.state.showSignupComponent && <SignupForm userName={this.state.userName} setUser={this.setUser}/>}
+          {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <Destination location={this.state.location} weather={this.state.weather} />}
           <Grid columns={2}>
             <Grid.Row>
             <Grid.Column>
-            {this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
+            {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.suggestionList.length !== 0 && <SuggestionList suggestionList={this.state.suggestionList} weather={this.state.weather} />}
             </Grid.Column>
             <Grid.Column>
-            {this.state.navItem === 'Search' && this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
+            {this.state.userName !== 'not logged in' && this.state.navItem === 'Search' && this.state.events.length !==0 && <LocalEventsList eventsList = {this.state.events} />}
             </Grid.Column>
             </Grid.Row>
           </Grid>
         </div>
-        {this.state.userName !== 'not logged in' &&
-          <div>
-            <div className="form-wrapper">
-              {this.state.navItem === 'Recommend' && <DestinationInput handleInputDest={this.handleInputDest} />}
-              {this.state.navItem === 'Recommend' && <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />}
-              {this.state.navItem === 'Friends' &&<AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />}
-            </div>
-            {this.state.navItem === 'Friends' &&<FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />}
-          </div>
+        {this.state.userName !== 'not logged in' && this.state.navItem === 'Recommend' &&
+          <Segment>
+            <Grid columns={2} divided>
+              <Grid.Row stretched>
+
+                <Grid.Column>
+                <Segment>
+                  <DestinationInput handleInputDest={this.handleInputDest} />
+                </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                <Segment>
+                  <AddSuggestion userName={this.state.userName} handleAddSuggestion={this.handleAddSuggestion} destinations={this.state.destinations} />
+                </Segment>
+                </Grid.Column>
+
+              </Grid.Row>
+            </Grid>
+          </Segment>
         }
+
+        {this.state.userName !== 'not logged in' && this.state.navItem === 'Friends' &&
+          <Segment>
+            <Grid columns={2} divided>
+              <Grid.Row stretched>
+
+                <Grid.Column>
+                <Segment>
+                  <AddFriend userName={this.state.userName} friendsToAdd={this.state.friendsToAdd} handleAddFriend={this.handleAddFriend} />
+                </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                <Segment>
+                  <FriendList userName={this.state.userName} userID={this.state.userID} friendList={this.state.friendList} handleFriendDelete={this.handleFriendDelete} />
+                </Segment>
+                </Grid.Column>
+
+              </Grid.Row>
+            </Grid>
+          </Segment>
+        }
+      </div>
       </div>
     );
   }

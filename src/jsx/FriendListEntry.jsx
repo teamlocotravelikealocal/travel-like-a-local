@@ -7,6 +7,7 @@ class FriendListEntry extends React.Component {
   }
 
   handleDelete(e) {
+    debugger;
     this.props.handleFriendDelete(this.props.userID, this.props.friendID);
   }
 
