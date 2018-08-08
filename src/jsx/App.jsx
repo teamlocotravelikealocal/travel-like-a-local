@@ -216,6 +216,7 @@ class App extends React.Component {
   }
 
   handleFriendDelete(userID, friendID) {
+    var thisComponent = this;
     var friendList = this.state.friendList;
     var length = friendList.length;
     for (var i = 0; i < length; i++) {
@@ -225,9 +226,25 @@ class App extends React.Component {
       }
     }
     ajaxHandler.deleteFriendship(userID, friendID, function () {
-      this.setState({ friendList: friendList });
-    }.bind(this));
+      ajaxHandler.getRemainingFriends(thisComponent.state.userName, function (response) {
+        thisComponent.setState({
+          friendList: friendList,
+          friendsToAdd: response.data
+        });
+      });
+    }.bind(thisComponent));
   }
+
+
+    // ajaxHandler.handleGetLoggedUserID(this.state.userName, function (response) {
+    //   //console.log(response.data);
+    //   if (response.data.length > 0) {
+    //     this.setState({
+    //       userID: response.data[0].ID
+    //     });
+    //   }
+    // }.bind(this));
+
 
 
   setUser(username) {
@@ -237,11 +254,17 @@ class App extends React.Component {
         console.log('retreiving friendList...', response.data);
         let friendListResult = response.data;
         ajaxHandler.getRemainingFriends(username, function (response) {
-          thisComponent.setState({
-            userName: username,
-            friendsToAdd: response.data,
-            friendList: friendListResult,
-            showLoginComponent: !thisComponent.state.showLoginComponent
+          let remainingFriends = response.data;
+          ajaxHandler.handleGetLoggedUserID(username, function (response) {
+            debugger;
+            console.log('getting userID...response..', response);
+            thisComponent.setState({
+              userName: username,
+              userID: response.data[0].ID,
+              friendsToAdd: remainingFriends,
+              friendList: friendListResult,
+              showLoginComponent: !thisComponent.state.showLoginComponent
+            });
           });
         });
       }.bind(thisComponent));
