@@ -30,8 +30,12 @@ body {
 
   width: 100%;
   height: 100%;
-  background: url('./../images/hero.jpg') no-repeat;
+
+  background: url('https://i.gifer.com/JFi.gif') no-repeat;
+/*  background: url('https://i.gifer.com/ua.gif') no-repeat;*/
+/*  background: url('./../images/hero.jpg') no-repeat;*/
   background-size: cover;
+  background-size: contain;
 }
 
 /*.navbar img {
